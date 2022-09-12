@@ -55,6 +55,15 @@ describe('Cart Component', () => {
 
     //get service outside this component
     service = fixture.debugElement.injector.get(BookService); // new way
+
+    //implement a mock on service and it will call our const listbook
+    jest.spyOn(service, 'getBooksFromCart').mockImplementation(() => listBook);
+  });
+
+  //destroy all instances after tests and mocks
+  afterEach(() => {
+    fixture.destroy();
+    jest.resetAllMocks();
   });
 
   it('should create component', () => {
@@ -108,5 +117,32 @@ describe('Cart Component', () => {
 
     expect(spy1).toHaveBeenCalledTimes(2);
     expect(spy2).toHaveBeenCalledTimes(2);
+  });
+
+  it('onClearBooks works correctly', () => {
+    const spy1 = jest
+      .spyOn(service, 'removeBooksFromCart')
+      .mockImplementation(() => null);
+
+    // as any method private
+    const spy2 = jest.spyOn(component as any, '_clearListCartBook');
+
+    component.listCartBook = listBook;
+    expect(component.listCartBook.length).toBe(3);
+    component.onClearBooks();
+    expect(component.listCartBook.length).toBe(0);
+    expect(spy1).toBeCalledTimes(1);
+    expect(spy2).toBeCalledTimes(1);
+  });
+
+  it('_clearListCartBook works correctly', () => {
+    const spy1 = jest
+      .spyOn(service, 'removeBooksFromCart')
+      .mockImplementation(() => null);
+    component.listCartBook = listBook;
+    //call function
+    component['_clearListCartBook']();
+    expect(component.listCartBook.length).toBe(0);
+    expect(spy1).toBeCalledTimes(1);
   });
 });
