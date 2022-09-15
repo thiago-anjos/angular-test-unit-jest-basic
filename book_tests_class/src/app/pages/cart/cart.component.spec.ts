@@ -2,35 +2,9 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { Book } from 'src/app/models/book.model';
+import listBook from '../../shared/listbook';
 import { BookService } from '../../services/book.service';
 import { CartComponent } from './cart.component';
-
-const listBook: Book[] = [
-  {
-    id: '1',
-    name: 'Name Test',
-    author: 'Author Test',
-    isbn: '455454fdsfds',
-    price: 15,
-    amount: 1,
-  },
-  {
-    id: '2',
-    name: 'Name Test',
-    author: 'Author Test',
-    isbn: '455454fdsfds',
-    price: 25,
-    amount: 2,
-  },
-  {
-    id: '3',
-    name: 'Name Test',
-    author: 'Author Test',
-    isbn: '455454fdsfds',
-    price: 5,
-    amount: 3,
-  },
-];
 
 describe('Cart Component', () => {
   let component: CartComponent;
