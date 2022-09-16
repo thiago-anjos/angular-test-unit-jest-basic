@@ -6,6 +6,10 @@ import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core';
 import listBook from '../../shared/listbook';
 import { of } from 'rxjs';
 
+const bookServiceMock = {
+  getbooks: () => of(listBook),
+};
+
 describe('Home component0', () => {
   let component: HomeComponent;
   let fixture: ComponentFixture<HomeComponent>;
@@ -14,7 +18,14 @@ describe('Home component0', () => {
     TestBed.configureTestingModule({
       imports: [HttpClientTestingModule],
       declarations: [HomeComponent],
-      providers: [BookService],
+      providers: [
+        //BookService,
+        //mock a service below
+        {
+          provide: BookService,
+          useValue: bookServiceMock,
+        },
+      ],
       schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
     });
   });
@@ -31,11 +42,11 @@ describe('Home component0', () => {
 
   it('getBooks method', () => {
     const bookService = fixture.debugElement.injector.get(BookService);
-    const spy = jest
-      .spyOn(bookService, 'getBooks')
-      .mockReturnValueOnce(of(listBook));
+    // const spy = jest
+    //   .spyOn(bookService, 'getBooks')
+    //   .mockReturnValueOnce(of(listBook));
     component.getBooks();
-    expect(spy).toHaveBeenCalledTimes(1);
+    // expect(spy).toHaveBeenCalledTimes(1);
     expect(component.listBook.length).toBe(3);
   });
 });
