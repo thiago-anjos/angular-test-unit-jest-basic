@@ -7,13 +7,9 @@ import { environment } from '../../environments/environment.prod';
 
 import swal from 'sweetalert2';
 
-
 @Injectable()
 export class BookService {
-
-  constructor(
-    private readonly _httpClient: HttpClient
-  ) { }
+  constructor(private readonly _httpClient: HttpClient) {}
 
   public getBooks(): Observable<Book[]> {
     const url: string = environment.API_REST_URL + `/book`;
@@ -34,16 +30,19 @@ export class BookService {
 
   public addBookToCart(book: Book) {
     let listBook: Book[] = JSON.parse(localStorage.getItem('listCartBook'));
-    if (listBook === null) { // Create a list with the book
+    /* istanbul ignore else  */
+    if (listBook === null) {
+      // Create a list with the book
       book.amount = 1;
-      listBook = [ book ];
-    } else { 
+      listBook = [book];
+    } else {
       const index = listBook.findIndex((item: Book) => {
         return book.id === item.id;
       });
-      if (index !== -1) { // Update the quantity in the existing book
+      if (index !== -1) {
+        // Update the quantity in the existing book
         listBook[index].amount++;
-      } else { 
+      } else {
         book.amount = 1;
         listBook.push(book);
       }
@@ -76,11 +75,11 @@ export class BookService {
       didOpen: (toast) => {
         toast.addEventListener('mouseenter', swal.stopTimer);
         toast.addEventListener('mouseleave', swal.resumeTimer);
-      }
+      },
     });
     Toast.fire({
       icon: 'success',
-      title: book.name + ' added to cart'
+      title: book.name + ' added to cart',
     });
   }
 }
